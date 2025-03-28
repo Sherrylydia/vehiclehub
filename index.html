@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VehicleHub</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>VehicleHub</h1>
+    <p>Fetch and display vehicle types for the make "Merc".</p>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <button id="allButton">All Vehicles</button>
+      <button id="availableButton">Available</button>
+      <button id="inUseButton">In Use</button>
+    </div>
+
+    <!-- Vehicle List Section -->
+    <h2>Vehicle List</h2>
+    <ul id="vehicleList">
+      <!-- Dynamic vehicle data will be rendered here -->
+      <button id="fetchVehiclesButton">Fetch Vehicle Types</button>
+      
+    </ul>
+
+    <!-- Add Vehicle Section -->
+    <h2>Add New Vehicle</h2>
+    <form id="addVehicleForm">
+      <input type="text" id="make" placeholder="Make" required />
+      <input type="text" id="model" placeholder="Model" required />
+      <select id="status" required>
+        <option value="available">Available</option>
+        <option value="in use">In Use</option>
+      </select>
+      <input type="text" id="licensePlate" placeholder="License Plate" required />
+      <button type="submit">Add Vehicle</button>
+    </form>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
