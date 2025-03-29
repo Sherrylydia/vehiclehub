@@ -1,5 +1,5 @@
 // Define the API URL
-const API_URL = 'http://localhost:3000/Vehicles'
+const API_URL = 'https://vehiclehub-server.onrender.com'
 
 // Get DOM elements
 const fetchVehiclesButton = document.getElementById("fetchVehiclesButton");
