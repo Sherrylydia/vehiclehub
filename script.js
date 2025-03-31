@@ -1,53 +1,98 @@
-// Define the API URL
-const API_URL = 'https://vehiclehub-server.onrender.com'
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "http://localhost:3000/vehicles";
+  const vehicleList = document.getElementById("vehicleList");
+  const fetchVehiclesButton = document.getElementById("fetchVehiclesButton");
+  const allButton = document.getElementById("allButton");
+  const availableButton = document.getElementById("availableButton");
+  const inUseButton = document.getElementById("inUseButton");
+  const addVehicleForm = document.getElementById("addVehicleForm");
 
-// Get DOM elements
-const fetchVehiclesButton = document.getElementById("fetchVehiclesButton");
-const vehicleList = document.getElementById("vehicleList");
-
-// Function to fetch and display vehicle data from the API
-async function fetchVehicleData() {
-  try {
-    // Clear the existing list
-    vehicleList.innerHTML = "";
-
-    // Fetch data from the API
-    const response = await fetch(API_URL);
-
-    // Check if the API request was successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+  // Fetch and display vehicles
+  async function fetchVehicles(filter = "") {
+    try {
+        let url = API_URL;
+        if (filter) {
+            url += `?status=${filter}`;
+        }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch vehicles: ${response.statusText}`);
+        }
+        const vehicles = await response.json();
+        console.log("Fetched Vehicles:", vehicles); 
+        displayVehicles(vehicles);
+    } catch (error) {
+        console.error("Error fetching vehicles:", error);
+        alert("Failed to fetch vehicles. Please check if the server is running.");
     }
-
-    // Parse the JSON response
-    const data = await response.json();
-
-    // Check if there are results
-    if (data.Results && data.Results.length > 0) {
-      // Loop through the data and display each vehicle
-      data.Results.forEach(vehicle => {
-        const li = document.createElement("li");
-        li.textContent = `Make: ${vehicle.MakeName}, Type: ${vehicle.VehicleTypeName}`;
-        vehicleList.appendChild(li);
-      });
-    } else {
-      // Display a message if no results are found
-      const li = document.createElement("li");
-      li.textContent = "No vehicles found for the make 'Merc'.";
-      vehicleList.appendChild(li);
-    }
-  } catch (error) {
-    // Handle any errors
-    console.error("Error fetching vehicle data:", error);
-    const li = document.createElement("li");
-    li.textContent = "An error occurred while fetching vehicle data.";
-    vehicleList.appendChild(li);
-  }
 }
 
-// Add event listener to the button
-fetchVehiclesButton.addEventListener("click", fetchVehicleData);
 
+function displayVehicles(vehicles) {
+    vehicleList.innerHTML = ""; 
+    if (vehicles.length === 0) {
+        vehicleList.innerHTML = "<p>No vehicles found.</p>";
+        return;
+    }
 
+    vehicles.forEach(vehicle => {
+        const vehicleItem = document.createElement("li");
+        vehicleItem.innerHTML = `
+            <strong>${vehicle.MakeName}</strong> - 
+            Vehicle Type: ${vehicle.VehicleTypeName}
+        `;
+        vehicleList.appendChild(vehicleItem);
+    });
+}
 
+  async function addVehicle(event) {
+      event.preventDefault();
+      
+      const make = document.getElementById("make").value;
+      const model = document.getElementById("model").value;
+      const status = document.getElementById("status").value;
+      const licensePlate = document.getElementById("licensePlate").value;
+  
+      if (!make || !model || !status || !licensePlate) {
+          alert("Please fill in all fields.");
+          return;
+      }
+  
+      const newVehicle = {
+          MakeId: Date.now(),
+          MakeName: make.toUpperCase(), 
+          VehicleTypeId: Math.floor(Math.random() * 100), 
+          VehicleTypeName: model,
+          status: status.toLowerCase(),
+          licensePlate: licensePlate.toUpperCase()
+      };
+  
+      try {
+          const response = await fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newVehicle)
+          });
+  
+          if (!response.ok) {
+              throw new Error(`Failed to add vehicle: ${response.statusText}`);
+          }
+  
+          alert("Vehicle added successfully!");
+          fetchVehicles(); 
+          document.getElementById("addVehicleForm").reset();
+      } catch (error) {
+          console.error("Error adding vehicle:", error);
+          alert("Failed to add vehicle. Please check the server.");
+      }
+  }
+  
 
+  fetchVehiclesButton.addEventListener("click", () => fetchVehicles());
+  allButton.addEventListener("click", () => fetchVehicles());
+  availableButton.addEventListener("click", () => fetchVehicles("available"));
+  inUseButton.addEventListener("click", () => fetchVehicles("in use"));
+  addVehicleForm.addEventListener("submit", addVehicle);
+
+  fetchVehicles();
+});
