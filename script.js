@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "https://vehiclehub-server.onrender.com";
+  const API_URL = "http://localhost:3000/vehicles";
   const vehicleList = document.getElementById("vehicleList");
   const fetchVehiclesButton = document.getElementById("fetchVehiclesButton");
   const allButton = document.getElementById("allButton");

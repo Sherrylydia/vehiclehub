@@ -4,6 +4,75 @@ body {
     padding: 20px;
     background-color: #f4f4f4;
   }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background:gray;
+    color: white;
+    padding: 15px 50px;
+  }
+  /* About Section Styles */
+.about-section {
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.about-description {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 700px;
+    text-align: justify;
+}
+
+/* Add a subtle shadow around the section */
+.about-section {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .about-title {
+        font-size: 1.6rem;
+    }
+
+    .about-description {
+        font-size: 0.9rem;
+    }
+}
+  nav ul {
+    list-style: none;
+    display: flex;
+  }
+  nav ul li {
+    margin: 0 15px;
+  }
+  
+  nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+  }
   
   .container {
     max-width: 800px;
