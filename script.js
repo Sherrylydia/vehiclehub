@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "http://localhost:3000/vehicles";
+  const API_URL = "https://vehiclehub-server.onrender.com";
   const vehicleList = document.getElementById("vehicleList");
   const fetchVehiclesButton = document.getElementById("fetchVehiclesButton");
   const allButton = document.getElementById("allButton");
@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch and display vehicles
   async function fetchVehicles(filter = "") {
     try {
-        let url = API_URL;
-        if (filter) {
-            url += `?status=${filter}`;
-        }
+      let url = `${API_URL}/vehicles`;
+      if (filter) {
+          url += `?status=${filter}`;
+      }
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch vehicles: ${response.statusText}`);
